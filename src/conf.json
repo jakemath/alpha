@@ -1,0 +1,7 @@
+{
+    "tda": {
+        "module": "tasks/tda",
+        "function": "tda",
+        "args": []
+    }
+}

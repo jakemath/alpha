@@ -1,0 +1,18 @@
+# Author: Jake Mathai
+# Purpose: Docker compose config
+version: '3'
+volumes:
+  node-modules: null
+services:
+  # Task container
+  alpha:
+    restart: unless-stopped
+    container_name: alpha
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ['node', 'dispatch.js']
+    environment:
+      - TASK=${TASK}  # Specify task name in environment, which maps to specific configurations in src/conf.json
+    volumes:
+      - node-modules:/src/node_modules/

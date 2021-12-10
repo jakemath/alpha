@@ -1,0 +1,11 @@
+{
+    "name": "alpha",
+    "version": "0.0.0",
+    "description": "Algorithmic trading & research",
+    "devDependencies": {
+        "@aws-sdk/client-secrets-manager": "3.42.0",
+        "axios":"0.24.0",
+        "@knicola/tdameritrade": "0.5.1",
+        "qs": "6.10.2"
+    }
+}
