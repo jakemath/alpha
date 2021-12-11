@@ -3,6 +3,7 @@ Author: Jake Mathai
 Purpose: Secrets Manager client
 */
 
+const fs = require('fs')
 const { SecretsManagerClient, GetSecretValueCommand, UpdateSecretCommand } = require('@aws-sdk/client-secrets-manager')
 
 let credentials = {'region': 'us-west-1'}
@@ -45,12 +46,23 @@ const updateSecret = async(secretId, newSecretValue) => {
         )
     }
     catch(e) {
+        throw new Error(`UPDATE_SECRET: ${e}`)
+    }
+}
 
+const makeKeyFile = async(secretId, path) => {
+    try {
+        const secretValue = await getSecret(secretId)
+        fs.writeFileSync(path, secretValue)
+    }
+    catch(e) {
+        throw new Error(`MAKE_KEY_FILE: ${e}`)
     }
 }
 
 module.exports = {
     getSecret,
     getApiKeys,
-    updateSecret
+    updateSecret,
+    makeKeyFile
 }

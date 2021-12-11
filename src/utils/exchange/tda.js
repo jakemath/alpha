@@ -8,69 +8,6 @@ const { TDAmeritrade } = require('@knicola/tdameritrade')
 
 const secretsmanager = require('../aws/secretsmanager')
 
-// const TDAClient = async() => {
-
-    // let accountUrl,
-    //     orderUrl,
-    //     quoteParams = {
-    //         'apiKey': ''
-    //     },
-    //     quotesParams = {
-    //         'apiKey': '',
-    //         'symbol': ''
-    //     },
-    //     accessToken,
-    //     consumerKey,
-    //     clientId,
-    //     refreshToken,
-    //     newAccessTokenParams = {
-    //         'grant_type': 'refresh_token',
-    //         'refresh_token': '',
-    //         'client_id': ''
-    //     },
-    //     header = {'Authorization': 'Bearer ' + accessToken},
-    //     minCashBalance = 25000
-
-    // const refreshUrl = 'https://api.tdameritrade.com/v1/oauth2/token'
-
-    // const setCredentials = async() => {
-    //     const tdaCredentials = await secretsmanager.getApiKeys('tda')
-    //     accountUrl = tdaCredentials['accountUrl']
-    //     orderUrl = accountUrl + '/orders'
-    //     newAccessTokenParams = {
-    //         'grant_type': 'refresh_token',
-    //         'refresh_token': refreshToken,
-    //         'client_id': clientId
-    //     }
-    //     quoteParams['apiKey'] = clientId
-    //     quotesParams['apiKey'] = clientId
-    //     accessToken = tdaCredentials['accessToken']
-    //     header['Authorization'] = 'Bearer ' + accessToken
-    //     consumerKey = tdaCredentials['consumerKey']
-    //     clientId = tdaCredentials['clientId']
-    //     refreshToken = tdaCredentials['refreshToken']
-    // }
-
-    // const updateAccessToken = async() => {
-    //     const response = await axios.post(refreshUrl, newAccessTokenParams)
-    //     accessToken = response['access_token']
-    //     let secrets = await secretsmanager.getApiKeys()
-    //     secrets['tda']['accessToken'] = accessToken
-    //     await secretsmanager.updateSecret('keys', secrets)
-    //     newAccessTokenParams['refresh_token'] = refreshToken
-    //     newAccessTokenParams['client_id'] = clientId
-    // }
-
-//     await setCredentials()
-//     await updateAccessToken()
-
-//     const subscribe = async(service, )
-
-//     return {
-//         updateAccessToken
-//     }
-// }
-
 const TDAClient = async() => {
     try {
         let accountUrl = '',
@@ -131,6 +68,8 @@ const TDAClient = async() => {
 
         await setCredentials()
         await updateAccessToken()
+        await secretsmanager.makeKeyFile('selfsigned.crt', '/src/selfsigned.crt')
+        await secretsmanager.makeKeyFile('selfsigned.key', '/src/selfsigned.key')
 
         return new TDAmeritrade({
             'apiKey': consumerKey,
