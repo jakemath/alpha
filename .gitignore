@@ -107,3 +107,4 @@ dist
 credentials.json
 selfsigned.crt
 selfsigned.key
+aws.json

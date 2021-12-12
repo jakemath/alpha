@@ -8,7 +8,7 @@ const { SecretsManagerClient, GetSecretValueCommand, UpdateSecretCommand } = req
 
 let credentials = {'region': 'us-west-1'}
 try {
-    credentials['credentials'] = require('./credentials.json')
+    credentials['credentials'] = require('./aws.json')
 }
 catch {
     console.log('SecretsManager credentials not found - assuming IAM role')
