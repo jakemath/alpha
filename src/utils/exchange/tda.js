@@ -6,7 +6,44 @@ const qs = require('qs');
 const axios = require('axios')
 const { TDAmeritrade } = require('@knicola/tdameritrade')
 
-const secretsmanager = require('../aws/secretsmanager')
+const secretsmanager = require('../aws/secretsmanager');
+
+order = {
+    "session": 'SEAMLESS', //"'NORMAL' or 'AM' or 'PM' or 'SEAMLESS'",
+    "duration": 'FILL_OR_KILL', //"'DAY' or 'GOOD_TILL_CANCEL' or 'FILL_OR_KILL'",
+    "orderType": 'LIMIT', //"'MARKET' or 'LIMIT' or 'STOP' or 'STOP_LIMIT' or 'TRAILING_STOP' or 'MARKET_ON_CLOSE' or 'EXERCISE' or 'TRAILING_STOP_LIMIT' or 'NET_DEBIT' or 'NET_CREDIT' or 'NET_ZERO'",
+    "quantity": 0,
+    "filledQuantity": 0,
+    "remainingQuantity": 0,
+    "destinationLinkName": "string",
+    "releaseTime": "string",
+    "stopPrice": 0,
+    "stopPriceLinkBasis": "'MANUAL' or 'BASE' or 'TRIGGER' or 'LAST' or 'BID' or 'ASK' or 'ASK_BID' or 'MARK' or 'AVERAGE'",
+    "stopPriceLinkType": "'VALUE' or 'PERCENT' or 'TICK'",
+    "stopPriceOffset": 0,
+    "stopType": "'STANDARD' or 'BID' or 'ASK' or 'LAST' or 'MARK'",
+    "priceLinkBasis": "'MANUAL' or 'BASE' or 'TRIGGER' or 'LAST' or 'BID' or 'ASK' or 'ASK_BID' or 'MARK' or 'AVERAGE'",
+    "priceLinkType": "'VALUE' or 'PERCENT' or 'TICK'",
+    "price": 0,
+    "taxLotMethod": "'FIFO' or 'LIFO' or 'HIGH_COST' or 'LOW_COST' or 'AVERAGE_COST' or 'SPECIFIC_LOT'",
+    "orderLegCollection": [
+        {
+            "orderLegType": 'EQUITY',
+            "instrument": {
+                "assetType": 'EQUITY',
+                "symbol": '',
+            },
+            "instruction": '', //"'BUY' or 'SELL' or 'BUY_TO_COVER' or 'SELL_SHORT' or 'BUY_TO_OPEN' or 'BUY_TO_CLOSE' or 'SELL_TO_OPEN' or 'SELL_TO_CLOSE' or 'EXCHANGE'",
+            "quantity": 0,
+            "quantityType": 'SHARES', //"'ALL_SHARES' or 'DOLLARS' or 'SHARES'"
+        }
+    ],
+    "activationPrice": 0,
+    "orderId": 0,
+    "cancelable": false,
+    "editable": false,
+    "accountId": 0,
+}
 
 const TDAClient = async() => {
     try {
@@ -85,6 +122,20 @@ const TDAClient = async() => {
         throw new Error(`TDA_CLIENT: ${e}`)
     }
 }
+
+driver = async() => {
+    const { TDAClient } = require('./utils/exchange/tda')
+    tda = await TDAClient()
+    accounts = await tda.getAccounts()
+    for (const accountInfo of accounts) {
+        info = accountInfo['securitiesAccount']
+        console.log(info)
+        accountId = accountInfo['accountId']
+        account = await tda.account(accountId)
+        console.log(account)
+    }
+}
+
 module.exports = {
     TDAClient
 }

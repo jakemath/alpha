@@ -30,10 +30,15 @@ const getSecret = async secretId => {
 }
 
 const getApiKeys = async(provider=null) => {
-    let keys = JSON.parse(await getSecret('keys'))
-    if (provider == null)
-        return keys
-    return keys[provider]
+    try {
+        let keys = JSON.parse(await getSecret('keys'))
+        if (provider == null)
+            return keys
+        return keys[provider]
+    }
+    catch(e) {
+        throw new Error(`GET_API_KEYS: ${e}`)
+    }
 }
 
 const updateSecret = async(secretId, newSecretValue) => {
@@ -54,6 +59,7 @@ const makeKeyFile = async(secretId, path) => {
     try {
         const secretValue = await getSecret(secretId)
         fs.writeFileSync(path, secretValue)
+        return null
     }
     catch(e) {
         throw new Error(`MAKE_KEY_FILE: ${e}`)
