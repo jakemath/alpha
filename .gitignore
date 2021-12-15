@@ -108,3 +108,5 @@ credentials.json
 selfsigned.crt
 selfsigned.key
 aws.json
+log.txt
+default-*
