@@ -110,3 +110,4 @@ selfsigned.key
 aws.json
 log.txt
 default-*
+.ipynb_checkpoints
